@@ -1,4 +1,4 @@
-# dotfiles
+# Dotfiles
 These are my dotfiles for my current system.
 
 ## Requirements
