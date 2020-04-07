@@ -3,9 +3,13 @@ These are my dotfiles for my current system.
 
 ## Requirements
 **Desktop Environment** - i3-gaps
+
 **Browser** - Chrome
+
 **Title Bar** - Polybar
+
 **Lock** - i3lock
+
 **Terminal** - Konsole
 
 ## For lockscreen
