@@ -1,0 +1,249 @@
+====================================================
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;=====================================================
+
+[colors]
+;background = ${xrdb:color0:#222}
+background = #222
+background-alt = #444
+;foreground = ${xrdb:color7:#222}
+foreground = #dfdfdf
+foreground-alt = #555
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+
+
+[bar/main]
+;monitor = ${env:MONITOR:HDMI-1}
+width = 100%
+height = 25
+offset-x = 0%
+offset-y = 0%
+radius = 0
+fixed-center = true
+bottom = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+line-size = 0
+line-color = #f00
+border-size = 1
+border-color = #ff0078
+padding-left = 1
+padding-right = 1
+module-margin-left = 1
+module-margin-right = 1
+font-0 = Roboto Mono:pixelsize=9;1
+font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-2 = FontAwesome:pixelsize=11;1
+font-3 = FontAwesome5Free:style=Solid:size=11;1
+font-4 = FontAwesome5Free:style=Regular:size=11;1
+font-5 = FontAwesome5Brands:style=Regular:size=11;1
+
+modules-left =i3
+modules-center =date time
+modules-right = memory ip-wlan battery backlight pulseaudio poweroff
+
+tray-position = right
+tray-padding = 0
+tray-background = ${colors.background}
+tray-foreground = ${colors.foreground}
+wm-restack = i3
+;override-redirect = true
+;scroll-up = bspwm-desknext
+;scroll-down = bspwm-deskprev
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-background = ${colors.background-alt}
+label-focused-underline = #fab1c3
+;label-focused-underline= ${colors.primary}
+label-focused-padding = 2
+
+label-occupied = %index%
+label-occupied-padding = 2
+
+label-urgent = %index%!
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+label-empty = %index%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 2
+
+[module/i3]
+type = internal/i3
+format-foreground = #ff0078
+format = <label-state> <label-mode> 
+index-sort = true
+strip-wsnumbers = true
+;wrapping-scroll = false
+; Only show workspaces on the same output as the bar
+;pin-workspaces = true
+;label-mode-padding = 0
+label-mode-foreground = #000
+label-mode-background = ${colors.primary}
+; focused = Active workspace on focused monitor
+label-focused =%name%
+label-focused-background = ${module/bspwm.label-focused-background}
+label-focused-underline = ${module/bspwm.label-focused-underline}
+label-focused-padding = ${module/bspwm.label-focused-padding}
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %name%
+label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+; visible = Active workspace on unfocused monitor
+label-visible = %name%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+; urgent = Workspace with urgency hint set
+label-urgent = %name%
+label-urgent-background = ${module/bspwm.label-urgent-background}
+label-urgent-padding = ${module/bspwm.label-urgent-padding}
+
+[module/date]
+type = internal/date
+interval = 5
+date = "%B-%d"
+;date = "%d-%m-%y"
+;date-alt = " %Y-%m-%d"
+format-prefix = "  "
+format-prefix-foreground = #E4FF00
+format-underline = #1c8baf
+label = %date%
+label-foreground = #00FFF7
+
+
+[module/time]
+type = internal/date
+interval = 1
+time = "%I:%M:%S"
+format-prefix = " "
+format-prefix-foreground = #E4FF00
+format-underline = #ffffff
+label = %time%
+label-foreground = #00FFF7
+
+[module/memory]
+type = internal/memory
+interval = 3
+format-foreground = #00F99F
+label =   %gb_free%
+
+[module/ip-wlan]
+type = internal/network
+interface = wlp2s0
+label-connected-foreground = #FF4200
+label-connected = "%downspeed:9% "
+
+[module/battery]
+type = internal/battery
+; Use $ ls -1 /sys/class/power_supply/
+battery = BAT1
+adapter = AC
+full-at = 98
+poll-interval = 1
+time-format = %H:%M
+format-charging    = <animation-charging> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+format-full        = <ramp-capacity> <label-full>
+label-discharging-foreground = #FFD100
+label-charging-foreground = #8BFF00
+label-full-foreground = #2AFF00
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-0-foreground = #FF0000
+ramp-capacity-1-foreground = #FFFB00
+ramp-capacity-2-foreground = #00D8FF
+ramp-capacity-3-foreground = #BDFF00
+ramp-capacity-4-foreground = #00FF0F
+bar-capacity-width = 10
+animation-charging-0 = " "
+animation-charging-1 = " "
+animation-charging-2 = " "
+animation-charging-3 = " "
+animation-charging-4 = " "
+animation-charging-0-foreground = #00FF0F
+animation-charging-1-foreground = #00FF0F
+animation-charging-2-foreground = #00FF0F
+animation-charging-3-foreground = #00FF0F
+animation-charging-4-foreground = #00FF0F
+animation-charging-framerate = 400
+
+[module/poweroff]
+type = custom/menu
+format-foreground = #D8F909
+expand-right = false
+format-spacing = 1
+label-open = "  "
+label-close = Back
+label-close-foreground = #0C00FF
+label-separator = |
+label-separator-foreground = ${colors.foreground-alt}
+menu-0-0 = reboot
+menu-0-0-foreground = #FFBD00
+menu-0-0-exec = menu-open-1
+menu-0-1 = power off
+menu-0-1-foreground = #FF0000
+menu-0-1-exec = menu-open-2
+menu-1-0 = reboot
+menu-1-0-foreground = #FF0000
+menu-1-0-exec = systemctl reboot
+menu-1-1 = cancel
+menu-1-1-exec = menu-open-0
+menu-1-1-foreground = #0FFF00
+menu-2-0 = power off
+menu-2-0-foreground = #FF0000
+menu-2-0-exec = systemctl poweroff
+menu-2-1 = cancel
+menu-2-1-foreground = #0FFF00
+menu-2-1-exec = menu-open-0
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+; vim:ft=dosini⇞
+
+[module/pulseaudio]
+type = internal/pulseaudio
+sink = alsa_output.pci-0000_12_00.3.analog-stereo
+use-ui-max = true
+interval = 5
+format-volume = <ramp-volume> <label-volume>
+format-muted = <label-muted>
+label-volume-foreground = #FFB200
+label-muted = 
+label-muted-foreground = #ff0000
+ramp-volume-0 = 
+ramp-volume-0-foreground = #0074FF
+click-right = pavucontrol &
+
+[module/backlight]
+type = custom/script
+exec=sh ~/.config/polybar/backlight.sh
+tail=true
+interval = 0
+enable-scroll = true
+scroll-up =  sh ~/.config/polybar/backlight.sh increase
+scroll-down =  sh ~/.config/polybar/backlight.sh decrease
+format-foreground = #ff0049
+format-padding = 1

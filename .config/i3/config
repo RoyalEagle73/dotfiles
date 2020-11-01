@@ -1,0 +1,218 @@
+# Set Mod Key (Mod4 Being Windows Key)
+set $mod Mod4
+
+# Font
+font pango:Hack 14
+
+# Open Rofiq
+
+
+# Enable Gaps
+for_window [class=".*"] border pixel 2  
+gaps inner 10
+gaps outer 0
+
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym $mod+plus exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym $mod+minus exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym $mod+m exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym turn exec i3-sensible-terminal
+
+# kill focused window
+bindsym $mod+q kill
+
+# change focus:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# Setting brightness
+bindsym $mod+Shift+plus exec --no-startup-id bash -c 'brightnessctl s +30'
+bindsym $mod+Shift+minus exec --no-startup-id bash -c 'brightnessctl s 30-'
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+#bindsym  fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym  layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Wallpaper
+exec --no-startup-id hsetroot -cover ~/.wallpaper.png
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1: Terminal"
+set $ws2 "2: Browser"
+set $ws3 "3: Coding"
+set $ws4 "4: Files"
+set $ws5 "5: Discordord"
+set $ws6 "6: Multimedia"
+set $ws7 "7: Misc"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+KP_5 workspace $ws5
+bindsym $mod+KP_6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-msg exit"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+ 
+
+ ##################
+ # Custom Binding #
+ ##################
+
+#bindsym $mod+d exec rofi -show drun
+bindsym $mod+d exec rofi -lines 12 -padding 18 -width 50 -location 0 -show drun -sidebar-mode -columns 3 -font 'Noto Sans 8'
+# bindsym $mod+d exec rofi -run-list-command ". ~/.bash_aliases" -run-command "/bin/bash -i -c '{cmd}'" -show drun         #Rofi
+bindsym --release Print exec "maim  ~/Pictures/screenshots/$(date +%s).png"                                           
+bindsym --release Shift+Print exec "scrot | xclip -selection clipboard -t image/png"                                  
+bindsym $mod+l exec "sh /home/royal/.config/i3/scripts/lock.sh" 
+bindsym $mod+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'                         #Rofi Clipboard
+bindsym $mod+Return exec konsole;workspace $ws1;focus
+bindsym $mod+Shift+w workspace $ws2;focus;exec google-chrome-stable
+bindsym $Alt+u exec poweroff
+bindsym $Alt+r exec reboot
+bindsym $mod+Shift+f workspace $ws4;focus;exec thunar
+bindsym XF86MonBrightnessDown exec light -U 10                                                                          #Brightness Down
+bindsym XF86MonBrightnessUp exec light -A 10                                                                            #Brightness Up
+
+ ###################
+ #  Control Music  #
+ ###################
+
+bindsym $mod+p exec mpc toggle                                                                                          #Play Pause Song
+bindsym $mod+n exec mpc next                                                                                            #Next Song
+bindsym $mod+b exec mpc prev                                                                                            #Prev Song
+
+
+ ###############
+ #  Autostart  #
+ ###############
+
+exec_always --no-startup-id $HOME/.config/i3/scripts/polybar.sh	                                                        #Polybar
+
+#exec --no-startup-id conky
+#exec --no-startup-id conky -c ~/.config/conky/conky-shcts
+
+exec --no-startup-id nm-applet                                                                                          #NetworkManager
+exec feh --bg-scale ~/Pictures/bg.jpg                                                                                   #Feh Background Image
+exec ~/.config/i3/scripts/startup.sh                                                                                    #Startup Script
+# exec --no-startup-id mpd                                                                                                #MPD
+# exec --no-startup-id /usr/bin/fox                                                                                   #Firefox
+# exec --no-startup-id /usr/bin/franz                                                                                #Franz
+# exec --no-startup-id /usr/bin/discord 
+# exec_always --no-startup-id xauto -time 10 -locker 'betterlockscreen -l dim'                                        #Autolock after 10mins
+# exec_always mopidy 
+exec_always --no-startup-id xauto -time 20 -locker 'systemctl suspend'                                              #Auto suspend after 20mins
+#exec --no-startup-id n -cb --config ~/.config/compton/compton.conf                                                #Load compton configuration
+exec --no-startup-id blueberry-tray
+exec --no-startup-id picom -b
+exec --no-startup-id betterscreen -w dim                                                                            #Load betterlockscreen
+#exec --no-startup-id sudo powertop --auto-tune                                                                         #Load powertop
+exec_always --no-startup-id greenclip daemon                                                                            #Load greenclip
+
+
+ ################
+ #  Assignmets  #
+ ################
+
+assign [class="fox"] $ws2
+assign [class="code-oss"] $ws3
+assign [class="Franz"] $ws4
+assign [class="discord"] $ws5
+
+
+# class                 border  backgr. text    indicator child_border         
+client.focused          #ff0000 #ff0000 #ffffff #ff0000   #ff0078
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #ff0078
+client.unfocused        #333333 #222222 #888888 #292d2e   #ff0078
+client.urgent           #2f343a #900000 #ffffff #900000   #ff0078
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #ff0078
+
+client.background       #ffffff
